@@ -1,0 +1,176 @@
+/* Assign Font Size to application */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video  ,input,button,select,textarea {
+	font-family: "Arial", "Microsoft JhengHei", "Microsoft YaHei", 
+				 "Noto Sans","Noto Sans CJK TC", "Noto Sans CJK SC",
+				 "SimHei";
+}
+
+/* Fix Button Focus Effect */
+.btn:hover,
+.btn:focus{
+	color: #ffffff;
+	outline: none;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus,
+.btn.hover{
+	outline: none;
+}
+.btn-default:hover,
+.btn-default:focus{
+	color: #333;
+	background-color: #ffffff;
+	border-color: #cccccc;
+}
+.btn-default.hover{
+	color: #333;
+	background-color: #ebebeb;
+	border-color: #adadad;
+}
+.btn-primary:hover,
+.btn-primary:focus{
+	background-color: #337ab7;
+	border-color: #2e6da4;
+}
+.btn-primary.hover{
+	background-color: #286090;
+	border-color: #204d74;
+}
+.btn-success:hover,
+.btn-success:focus{
+	background-color: #5cb85c;
+	border-color: #4cae4c;
+}
+.btn-success.hover{
+	background-color: #47a447;
+	border-color: #398439;
+}
+.btn-info:hover,
+.btn-info:focus{
+	background-color: #5bc0de;
+	border-color: #46b8da;
+}
+.btn-info.hover{
+	background-color: #39b3d7;
+	border-color: #269abc;
+}
+.btn-warning:hover,
+.btn-warning:focus{
+	background-color: #f0ad4e;
+	border-color: #eea236;
+}
+.btn-warning.hover{
+	background-color: #ed9c28;
+	border-color: #d58512;
+}
+.btn-danger:hover,
+.btn-danger:focus{
+	background-color: #d9534f;
+	border-color: #d43f3a;
+}
+.btn-danger.hover{
+	background-color: #d2322d;
+	border-color: #ac2925;
+}
+.btn-link:hover,
+.btn-link:focus{
+	color: #08C;
+	text-decoration: none;
+}
+.btn-link.hover{
+	color: #2a6496;
+	text-decoration: underline;
+}
+
+/* Optional responsive image override */
+img { max-width: none; }
+
+/* Modify scroll bar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #FFFFFF; -webkit-box-shadow: inset 1px 1px 2px #E0E0E0; border: 1px solid #D8D8D8; }
+::-webkit-scrollbar-thumb { background: #9C9C9C; -webkit-box-shadow: inset 1px 1px 2px rgba(155, 155, 155, 0.4); }
+::-webkit-scrollbar-thumb:hover { -webkit-box-shadow: inset 1px 1px 10px rgba(0,0,0,0.3); }
+::-webkit-scrollbar-thumb:active { background: #888; -webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3); }
+
+/* Add Google Play button */
+.btn-google-play {
+	padding: 2px 3px;
+	width: 148px;
+	height: 48px;
+	background-color: #231F20;
+	img{
+		width: 140px;
+		content: url('//www.vinexs.com/repos/bootstrap-plus/1.0.0/google_play_xhdip.png');
+	}
+	&.hover, &:active, &.active, &.disabled, &[disabled]{
+		background-color: #383234;
+	}
+}
+
+/* Add App-Store button */
+.btn-appstore {
+	padding: 4px 10px 2px 7px;
+	width: 148px;
+	height: 48px;
+	background-color: #76797C;
+	img{
+		width: 130px;
+		content: url('//www.vinexs.com/repos/bootstrap-plus/1.0.0/app_store_xhdip.png');
+	}
+	&.hover, &:active, &.active, &.disabled, &[disabled]{
+		background-color: #AFAFAF;
+	}
+}
+
+/* Add Window Phone market button */
+.btn-wpstore{
+	padding: 2px 3px;
+	width: 148px;
+	height: 48px;
+	background-color: #231f20;
+	img{
+		width: 140px;
+		content: url('//www.vinexs.com/repos/bootstrap-plus/1.0.0/wps_badge_xhdip.png');
+	}
+	&.hover, &:active, &.active, &.disabled, &[disabled]{
+		background-color: #2C2C2C;
+	}
+}
+
+/* Add Blackberry world button */
+.btn-bb-world{
+	padding: 2px 22px 2px 3px;
+	width: 148px;
+	height: 48px;
+	background-color: #000000;
+	img{
+		width: 106px;
+		content: url('//www.vinexs.com/repos/bootstrap-plus/1.0.0/bbw_badge_xhdip.png');
+	}
+	&.hover, &:active, &.active, &.disabled, &[disabled]{
+		background-color: #2C2C2C;
+	}
+}
+
+/* Copyright Line Spacing */
+.copyright{
+	span{
+		white-space: nowrap;
+	}
+}

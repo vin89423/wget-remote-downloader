@@ -1,0 +1,226 @@
+/**
+ *  LESS Functions 1.2.2 - Copyright(c) 2014 Infotoo International Limited - http://www.infotoo.com
+ *
+ *	Require Less version 1.3.0
+ *
+ *  Last Updated: 2014-11-19
+ *
+ **/
+
+/* #[clearfix] */
+.clearfix(){
+	content:"";
+	clear:both;
+	display:block;
+	height:0px;
+	overflow:hidden;
+}
+
+
+/* #[border-radius]
+	Formal syntax: [ <length> | <percentage> ]{1,4} [ / [ <length> | <percentage> ]{1,4} ]? */
+.border-radius( @s ){
+	-webkit-border-radius: @s;
+	   -moz-border-radius: @s;
+			border-radius: @s;
+}
+
+
+/* #[box-shadow] 
+	Formal syntax: none | [inset? && [ <offset-x> <offset-y> <blur-radius>? <spread-radius>? <color>? ] ]# */
+.box-shadow( @s ){
+    -webkit-box-shadow: @s;
+       -moz-box-shadow: @s;
+         -o-box-shadow: @s;
+            box-shadow: @s;
+}
+/* [drop-shadow] Formal syntax: <x>, <y>, <blur>, <spread>, <color> */
+.drop-shadow( @x, @y, @blur: ~'2px', @spread: ~'0px', @color: ~'rgba(0, 0, 0, 0.25)'){
+	-webkit-box-shadow: @x @y @blur @spread @color;
+	   -moz-box-shadow: @x @y @blur @spread @color;
+			box-shadow: @x @y @blur @spread @color;
+}
+/* [inner-shadow] Formal syntax: <x>, <y>, <blur>, <spread>, <color> */
+.inner-shadow( @x, @y, @blur: ~'2px', @spread: ~'0px', @color: ~'rgba(0, 0, 0, 0.25)'){
+	-webkit-box-shadow: inset @x @y @blur @spread @color;
+	   -moz-box-shadow: inset @x @y @blur @spread @color;
+			box-shadow: inset @x @y @blur @spread @color;
+}
+
+/* #[opacity]
+	Formal syntax: <percentage>/ 1 */
+.opacity( @opacity ){
+	@opacityFloat: @opacity * 100;
+	opacity: @opacity;
+	filter: ~"alpha(opacity = (@{opacityFloat}))";
+}
+
+
+/* #[gradient]
+	Formal syntax: <startColor>, <endColor> */
+.gradient(@startColor, @endColor){
+	background-color: @startColor;
+	background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+	background: -webkit-linear-gradient(top, @startColor, @endColor);
+	background: -moz-linear-gradient(top, @startColor, @endColor);
+	background: -ms-linear-gradient(top, @startColor, @endColor);
+	background: -o-linear-gradient(top, @startColor, @endColor);
+}
+/* #[horizontal-gradient] Formal syntax: <startColor>, <endColor> */
+.horizontal-gradient(@startColor, @endColor){
+ 	background-color: @startColor;
+	background-image: -webkit-gradient(linear, left top, right top, from(@startColor), to(@endColor));
+	background-image: -webkit-linear-gradient(left, @startColor, @endColor);
+	background-image: -moz-linear-gradient(left, @startColor, @endColor);
+	background-image: -ms-linear-gradient(left, @startColor, @endColor);
+	background-image: -o-linear-gradient(left, @startColor, @endColor);
+}
+
+
+/* # [animation]
+	Formal syntax: <single-animation-name>, <duration>, <timing-function>, <delay>, <single-animation-iteration-count>, <single-animation-direction>, <single-animation-fill-mode>, <single-animation-play-state> */
+.animation( @name, @duration: ~'', @timing: ~'', @delay: ~'', @count: ~'infinite', @direction: ~'', @fillmode: ~'', @playstate: ~'' ){
+	-webkit-animation: @name @duration @timing @delay @count @direction @fillmode @playstate;
+	   -moz-animation: @name @duration @timing @delay @count @direction @fillmode @playstate;
+	     -o-animation: @name @duration @timing @delay @count @direction @fillmode @playstate;
+			animation: @name @duration @timing @delay @count @direction @fillmode @playstate;
+}
+/* [animation-name] Formal syntax: <single-animation-name> */
+.animation-name( @name ){
+	-webkit-animation-name: @name;
+	   -moz-animation-name: @name;
+	     -o-animation-name: @name;
+			animation-name: @name;
+}
+/* [animation-duration] Formal syntax: <duration> */
+.animation-duration( @duration ){
+	-webkit-animation-duration: @duration;
+	   -moz-animation-duration: @duration;
+	     -o-animation-duration: @duration;
+			animation-duration: @duration;
+}
+/* [animation-timing-function] Formal syntax: <timing-function> */
+.animation-timing-function( @timing ){
+	-webkit-animation-timing-function: @timing;
+	   -moz-animation-timing-function: @timing;
+	     -o-animation-timing-function: @timing;
+			animation-timing-function: @timing;
+}
+/* [animation-delay] Formal syntax: <delay> */
+.animation-delay( @delay ){
+	-webkit-animation-delay: @delay;
+	   -moz-animation-delay: @delay;
+	     -o-animation-delay: @delay;
+			animation-delay: @delay;
+}
+/* [animation-iteration-count] Formal syntax: <single-animation-iteration-count> */
+.animation-iteration-count( @count ){
+	-webkit-animation-count: @count;
+	   -moz-animation-count: @count;
+	     -o-animation-count: @count;
+			animation-count: @count;
+}
+/* [animation-direction] Formal syntax: <single-animation-direction> */
+.animation-direction( @direction ){
+	-webkit-animation-direction: @direction;
+	   -moz-animation-direction: @direction;
+	     -o-animation-direction: @direction;
+			animation-direction: @direction;
+}
+/* [animation-fill-mode] Formal syntax: <single-animation-fill-mode> */
+.animation-fill-mode( @fillmode ){
+	-webkit-animation-fill-mode: @fillmode;
+	   -moz-animation-fill-mode: @fillmode;
+	     -o-animation-fill-mode: @fillmode;
+			animation-fill-mode: @fillmode;
+}
+/* [animation-play-state] Formal syntax: <single-animation-play-state> */
+.animation-play-state( @playstate ){
+	-webkit-animation-play-state: @playstate;
+	   -moz-animation-play-state: @playstate;
+	     -o-animation-play-state: @playstate;
+			animation-play-state: @playstate;
+}
+
+
+/* #[transition] 
+	Formal syntax: <single-transition-property>, <duration>, <timing-function>, <delay> */
+.transition( @property, @duration, @timing: ~'', @delay: ~'' ){
+	-webkit-transition: @property @duration @timing @delay;
+	   -moz-transition: @property @duration @timing @delay;
+	     -o-transition: @property @duration @timing @delay;
+	        transition: @property @duration @timing @delay;
+}
+/* [transition-property] Formal syntax: <single-transition-property>*/
+.transition-property( @property ){
+	-webkit-transition-property: @property;
+	   -moz-transition-property: @property;
+	     -o-transition-property: @property;
+            transition-property: @property;
+}
+/* [transition-duration] Formal syntax: <duration-in-second>*/
+.transition-duration( @duration ){
+	-webkit-transition-duration: @duration;
+	   -moz-transition-duration: @duration;
+	     -o-transition-duration: @duration;
+			transition-duration: @duration;
+}
+/* [transition-timing] Formal syntax: <timing> [ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier()|initial|inherit]*/
+.transition-timing-function( @timing ){
+	-webkit-transition-timing-function: @timing;
+	   -moz-transition-timing-function: @timing;
+	     -o-transition-timing-function: @timing;
+			transition-timing-function: @timing;
+}
+/* [transition-delay] Formal syntax: <delay-in-second>*/
+.transition-delay( @delay ){
+	-webkit-transition-delay: @delay;
+	   -moz-transition-delay: @delay;
+	     -o-transition-delay: @delay;
+			transition-delay: @delay;
+}
+
+/* #[transform] 
+	Formal syntax: none | <transform-function>+
+*/
+.transform( @func ){
+	-webkit-transform: @func;
+	   -moz-transform: @func;
+	    -ms-transform: @func;
+	     -o-transform: @func;
+	        transform: @func;
+}
+/* [transform-scale] Formal syntax: <scale-x>, <scale-y> */
+.transform-scale( @scalex, @scaley ){
+	-webkit-transform: scale(@scalex, @scaley);
+	   -moz-transform: scale(@scalex, @scaley);
+	    -ms-transform: scale(@scalex, @scaley);
+	     -o-transform: scale(@scalex, @scaley);
+	        transform: scale(@scalex, @scaley);
+}
+/* [transform-rotate] Formal syntax: <rotate-degree>, <origin-x>, <origin-y>. Example: @s0 = 90deg , @s1 = 100% , @s2 = 100% */
+.transform-rotate( @degree , @originx: ~'100%' , @originy: ~'100%' ){	
+	-webkit-transform:rotate( @degree );
+	   -moz-transform:rotate( @degree );
+	    -ms-transform:rotate( @degree );
+	     -o-transform:rotate( @degree );
+	        transform:rotate( @degree );
+	-webkit-transform-origin:@originx @originy;
+	   -moz-transform-origin:@originx @originy;
+	    -ms-transform-origin:@originx @originy;
+	     -o-transform-origin:@originx @originy;
+	        transform-origin:@originx @originy;
+}
+
+/* #[font-face]
+	Formal syntax: <font-family-name> , <font-file-path>
+	Example	@fn = 'Federation' , @fp = 'http://www.certieye.com/repos/font/federation' */
+.font-face( @fontname , @fontpath )
+{
+  font-family: @fontname;
+  src: url("@{fontpath}.eot");
+  src: url("@{fontpath}.eot?#iefix") format('embedded-opentype'),
+	   url("@{fontpath}.woff") format('woff'),
+	   url("@{fontpath}.ttf") format('truetype'),
+	   url("@{fontpath}.svg") format('svg');
+}
