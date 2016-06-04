@@ -1,11 +1,11 @@
-# wget-remote-downloader
+# Wget Remote Downloader
 Home server is a common device nowadays, some of the NAS also contain manageable Linux system. I have a home server too, I use it as a 24x7 router. I think that to do more things, so i build this remote download. Linux wget is a simple & fast download too. what i need to do is build a web interface for me to access anywhere without ssh.
 
-# Requirement
+## Requirement
 * Linux apache-server accept wget, ls, head & tail command.
 * > Php5
 
-# How to use
+## How to use
 #### 1. Modify manifest.json
 | Param | Description |
 | --- | --- |
