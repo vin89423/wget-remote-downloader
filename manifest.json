@@ -1,0 +1,25 @@
+{
+  "minPhpVersion": "5.0",
+  "url": {
+    "domain": "{domain}",
+    "root": "{root}"
+  },
+  "session": {
+    "token": "RD_TOKEN",
+    "encrypt": "{token-encrypt-key}"
+  },
+  "application": {
+    "activity": {
+      "main": {
+        "launch": "MainApp",
+        "storage": "//",
+        "languageSource": "ini",
+        "language": [
+          "zt",
+          "zs",
+          "en"
+        ]
+      }
+    }
+  }
+}
