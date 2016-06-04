@@ -1,0 +1,8 @@
+# Set all request point to index.php
+DirectoryIndex index.php
+
+# Url-Rewrite
+RewriteEngine On
+RewriteRule ^index.php/.*$ - [L]
+RewriteRule ^assets/(.*)$ - [L]
+RewriteRule ^(.*)$ index.php/$1 [L]
