@@ -57,7 +57,6 @@
 		<a href="#!" class=" modal-action waves-effect btn-flat" data-event="download"><?php echo $this->lang('confirm_download'); ?></a>
 	</div>
 </div>
-
 <div id="remove-modal" class="modal">
 	<div class="modal-content">
 		<p><?php echo $this->lang('confirm_to_delete_ask') ?>?</p>
@@ -67,8 +66,6 @@
 		<a href="#!" class="modal-action waves-effect btn-flat" data-event="remove" data-signature=""><?php echo $this->lang('confirm_to_delete'); ?></a>
 	</div>
 </div>
-
-
 <script>
 $(function(){
 	DOWNLOAD.initList();
