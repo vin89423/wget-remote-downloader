@@ -6,7 +6,7 @@
 <html><!--<![endif]-->
 <head>
     <meta charset="utf-8"/>
-    <title>遠程下載工具<?php /* echo $this->lang(isset($TITLE) ? $TITLE : 'website_title');*/ ?></title>
+    <title><?php echo $this->lang('title'); ?></title>
     <?php if (isset($DESCRIPTION)) {
         echo '<meta name="description" content="' . $DESCRIPTION . '" />';
     } ?>
@@ -35,7 +35,7 @@
 
 <nav>
 	<div class="nav-wrapper">
-		<a href="#!" class="brand-logo">遠程下載工具</a>
+		<a href="#!" class="brand-logo"><?php echo $this->lang('title'); ?></a>
 		<?php
 		if ($logged) {
 			?>
@@ -43,12 +43,12 @@
 				<i class="material-icons">menu</i>
 			</a>
 			<ul class="right hide-on-med-and-down">
-				<li><a href="#">全部清除</a></li>
-				<li><a href="#">登出系統</a></li>
+				<li><a href="#" data-event="remove_all"><?php echo $this->lang('remove_all'); ?></a></li>
+				<li><a href="#" data-event="logout"><?php echo $this->lang('logout'); ?></a></li>
 			</ul>
 			<ul class="side-nav" id="mobile-nav">
-				<li><a href="#">全部清除</a></li>
-				<li><a href="#">登出系統</a></li>
+				<li><a href="#" data-event="remove_all"><?php echo $this->lang('remove_all'); ?></a></li>
+				<li><a href="#" data-event="logout"><?php echo $this->lang('logout'); ?></a></li>
 			</ul>
 			<?php
 		}
