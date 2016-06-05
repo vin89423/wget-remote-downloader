@@ -32,7 +32,6 @@
           content="root=<?php echo $URL_ROOT; ?>, activity=<?php echo $URL_ACTIVITY; ?>, repos=<?php echo $URL_REPOS; ?>, rsc=<?php echo $URL_RSC; ?>"/>
 </head>
 <body data-lang="<?php echo $LANGUAGE; ?>">
-
 <nav>
 	<div class="nav-wrapper">
 		<a href="#!" class="brand-logo"><?php echo $this->lang('title'); ?></a>
