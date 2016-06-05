@@ -41,6 +41,16 @@ DOWNLOAD = {
 			DOWNLOAD.openRequestDialog();
 		});
 		
+		$('a[data-event=remove_all]').click(function(e){
+			e.preventDefault();
+			DOWNLOAD.removeRequest('all_signature');
+		});
+		
+		$('a[data-event=logout]').click(function(e){
+			e.preventDefault();
+			DOWNLOAD.logout();
+		});
+		
 		$(".button-collapse").sideNav();
 		
 		setInterval(function(){
@@ -76,7 +86,7 @@ DOWNLOAD = {
 			dataType: 'json',
 			success: function(json){
 				if (json.status != 'OK') {
-					return Materialize.toast('用戶不存在或密碼不正確。', 4000);
+					return Materialize.toast($.lang('username_not_exist'), 4000);
 				}
 				location.href = $.url.activity;
 			}
@@ -337,7 +347,11 @@ DOWNLOAD = {
 			success: function(json) {
 				$('#remove-modal [data-signature]').attr('data-signature', '');
 				if (json.status == 'OK') {
-					$('.card[data-signature='+ signature +']').parents('.item.row').remove();
+					if ( signature == 'all_signature') {
+						$('#download-list .item.row').remove();
+					} else {
+						$('.card[data-signature='+ signature +']').parents('.item.row').remove();
+					}
 					if ($('#download-list .card[data-signature]').length == 0) {
 						$('#download-list').hide().html('');
 						$('#no-downloads').show();
