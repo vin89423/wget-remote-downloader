@@ -20,7 +20,7 @@ Home server is a common device nowadays, some of the NAS also contain manageable
 ## Requirement
 * A Linux Server that accept wget, ls, head & tail command.
 * Apache
-* > Php5
+* PHP
 
 ## How to use
 #### 1. Modify manifest.json
