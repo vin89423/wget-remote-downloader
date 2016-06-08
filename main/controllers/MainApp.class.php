@@ -66,7 +66,7 @@ class MainApp extends Index
 			$headline = implode("\n", $headline);
 			$tailline = implode("\n", $tailline);
 			
-			if (preg_match('/^--([0-9\-:\s]+)--\s+(http(?:s)?:\/\/[\w\d.\-\/]+)/', $headline, $matches)) {
+			if (preg_match('/^--([0-9\-:\s]+)--\s+(https?:\/\/.+)/', $headline, $matches)) {
 				$list[$signature]['date'] = $matches[1];
 				$list[$signature]['url'] = $matches[2];
 				$list[$signature]['http_code'] = 0;
