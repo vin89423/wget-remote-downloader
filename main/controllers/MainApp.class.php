@@ -75,6 +75,9 @@ class MainApp extends Index
 					$list[$signature]['http_code'] = $matches[1];
 				}
 			}
+			if (empty($list[$signature]['http_code'])) {
+				$list[$signature]['http_code'] = 400;
+			}
 			switch ($list[$signature]['http_code']) {
 				case '200': // OK
 					if (preg_match('/Length:\s(\d+)\s\([\d\w\W]+\)\s\[([\w\-\/]+)\]/', $headline, $matches)) {
@@ -109,6 +112,7 @@ class MainApp extends Index
 						$list[$signature]['status'] = 'error';
 					}
 					break;
+				case '400': // Bad Request	
 				case '403': // Forbidden
 				case '404': // Not Found
 				case '500': // Internal Server Error					
