@@ -5,7 +5,7 @@
  */
 
 (function(jQuery){
-		
+
 	jQuery.extend({
 		url: (function(){
 			var data = {};
@@ -19,8 +19,8 @@
 			}
 			return data;
 		})()
-	});	
-	
+	});
+
 })(jQuery);
 
 DOWNLOAD = {
@@ -35,33 +35,33 @@ DOWNLOAD = {
 		DOWNLOAD.loadList();
 		DOWNLOAD.initRequestDialog();
 		DOWNLOAD.initRemoveDialog();
-		
+
 		$('a[data-event=add-request]').click(function(e){
 			e.preventDefault();
 			DOWNLOAD.openRequestDialog();
 		});
-		
+
 		$('a[data-event=remove_all]').click(function(e){
 			e.preventDefault();
 			DOWNLOAD.removeRequest('all_signature');
 		});
-		
+
 		$('a[data-event=logout]').click(function(e){
 			e.preventDefault();
 			DOWNLOAD.logout();
 		});
-		
+
 		$(".button-collapse").sideNav();
-		
+
 		setInterval(function(){
 			if ($('#download-list .card[data-status=downloading]').length > 0) {
 				DOWNLOAD.loadList();
 			}
 		}, 5000);
-		
+
 	},
 	login: function(){
-		var hasError = false;		
+		var hasError = false;
 		var $username = $('input#username');
 		var $password = $('input#password');
 		if ($username.isEmpty()) {
@@ -90,7 +90,7 @@ DOWNLOAD = {
 				}
 				location.href = $.url.activity;
 			}
-		});		
+		});
 	},
 	logout: function(){
 		$.cookie.remove('RD_TOKEN');
@@ -141,6 +141,7 @@ DOWNLOAD = {
 				return 'fa-file-code-o';
 		// Type video
 			case 'video/flv':
+			case 'video/x-flv':
 			case 'video/quicktime':
 			case 'video/mpeg':
 			case 'video/mp4':
@@ -161,6 +162,12 @@ DOWNLOAD = {
 				return 'fa-font';
 		}
 		return 'fa-file-o';
+	},
+	getFileSize(bytes) {
+		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+		if (bytes == 0) return '0 Byte';
+		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 	},
 	loadList: function(){
 		$.ajax({
@@ -184,7 +191,10 @@ DOWNLOAD = {
 						var $card = $(card.replaceAll('{SIGNATURE}', signature)
 												.replaceAll('{STATUS}', list[signature].status)
 												.replaceAll('{FILENAME}', list[signature].filename)
-												.replaceAll('{URL}', list[signature].url));
+												.replaceAll('{URL}', list[signature].url)
+												.replaceAll('{FILESIZE}', DOWNLOAD.getFileSize(list[signature].filesize))
+												.replaceAll('{ETA}', list[signature].estimated_time)
+												.replaceAll('{SPEED}', list[signature].speed));
 						$card.find('.file-icon i.fa').addClass(DOWNLOAD.getMimeIcon(list[signature].filetype));
 						$card.find('a.filename, a.url').attr('href', list[signature].url);
 						$('#download-list').prepend($card);
@@ -194,17 +204,18 @@ DOWNLOAD = {
 					$card.attr('data-status', list[signature].status);
 					switch (list[signature].status) {
 						case 'finished':
-							$card.find('.progress, .action-ctrl a[data-event]').hide();
+							$card.find('.download-progress, .action-ctrl a[data-event]').hide();
 							$card.find('[data-event=download]').show();
 							break;
 						case 'cancel':
 						case 'error':
-							$card.find('.progress, .action-ctrl a[data-event]').hide();
+							$card.find('.download-progress, .action-ctrl a[data-event]').hide();
 							$card.find('[data-event=retry]').show();
 							break;
 						case 'downloading':
-							$card.find('.progress .determinate').css('width', list[signature].precentage +'%');
-							$card.find('.progress, [data-event=cancel]').show();
+							$card.find('.download-progress .speed').html(list[signature].estimated_time +' - '+ list[signature].speed);
+							$card.find('.download-progress .determinate').css('width', list[signature].precentage +'%');
+							$card.find('.download-progress, [data-event=cancel]').show();
 							break;
 					}
 				}
@@ -221,8 +232,8 @@ DOWNLOAD = {
 				case 'download':
 					DOWNLOAD.fileRequest(signature);
 					break;
-				case 'retry':					
-					DOWNLOAD.retryRequest($card, signature);					
+				case 'retry':
+					DOWNLOAD.retryRequest($card, signature);
 					break;
 				case 'cancel':
 					DOWNLOAD.cancelRequest($card, signature);
@@ -231,12 +242,12 @@ DOWNLOAD = {
 					DOWNLOAD.openRemoveDialog(signature);
 					break;
 			}
-		});	
+		});
 	},
 	initRequestDialog: function(){
 		$('#request-modal a[data-event=download]').click(function(e){
 			e.preventDefault();
-			var hasError = false;		
+			var hasError = false;
 			var $url = $('input#url');
 			var $filename = $('input#filename');
 			if ($url.isEmpty() || !$url.val().isURL()) {
@@ -248,7 +259,7 @@ DOWNLOAD = {
 			}
 			DOWNLOAD.downloadRequest($url.val(), $filename.val());
 		});
-		
+
 		$('#request-modal a[data-event=cancel]').click(function(e){
 			e.preventDefault();
 			$('#request-modal').closeModal();
@@ -260,7 +271,7 @@ DOWNLOAD = {
 			var signature = $('#remove-modal [data-signature]').attr('data-signature');
 			DOWNLOAD.removeRequest(signature);
 		});
-		
+
 		$('#remove-modal [data-event=cancel]').click(function(e){
 			e.preventDefault();
 			$('#remove-modal').closeModal();
@@ -294,7 +305,7 @@ DOWNLOAD = {
 				}
 				setTimeout(function(){
 					DOWNLOAD.loadList();
-				}, 500)		
+				}, 500)
 			}
 		});
 	},
@@ -311,13 +322,13 @@ DOWNLOAD = {
 			dataType: 'json',
 			success: function(json) {
 				if (json.status == 'OK') {
-					$card.find('.progress, .action-ctrl a[data-event]').hide();
+					$card.find('.download-progress, .action-ctrl a[data-event]').hide();
 					$card.find('.action-ctrl [data-event=retry]').show();
 				}
 			}
 		});
 	},
-	retryRequest: function($card, signature){		
+	retryRequest: function($card, signature){
 		$.ajax({
 			url: $.url.activity +'request_retry?'+ $.now(),
 			type: 'POST',
@@ -327,8 +338,8 @@ DOWNLOAD = {
 			dataType: 'json',
 			success: function(json) {
 				$card.find('.action-ctrl [data-event]').hide();
-				$card.find('.progress .determinate').css('width', '0%');
-				$card.find('.progress, .action-ctrl [data-event=cancel]').show();
+				$card.find('.download-progress .determinate').css('width', '0%');
+				$card.find('.download-progress, .action-ctrl [data-event=cancel]').show();
 				DOWNLOAD.loadList();
 			}
 		});
