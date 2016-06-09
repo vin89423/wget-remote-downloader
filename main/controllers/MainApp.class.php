@@ -54,29 +54,25 @@ class MainApp extends Index
 			$content = json_decode(file_get_contents($state_file), true);
 			if (in_array($content['status'], array('finished', 'error', 'cancel'))) {
 				$list[$signature] = $content;
-				continue;
+				// continue;
 			}
 			$list[$signature] = $content;
-			
+			$list[$signature]['http_code'] = 0;
+
 			// Parse progress file
 			$progress_file = dirname($state_file) .'/'. $signature .'.prog';
-			$headline = $tailline = array();			
+			$headline = $tailline = array();
 			exec('head -n 10 '.$progress_file, $headline);
 			exec('tail -n 10 '.$progress_file, $tailline);
 			$headline = implode("\n", $headline);
 			$tailline = implode("\n", $tailline);
-			
+
 			if (preg_match('/^--([0-9\-:\s]+)--\s+(https?:\/\/.+)/', $headline, $matches)) {
 				$list[$signature]['date'] = $matches[1];
 				$list[$signature]['url'] = $matches[2];
-				$list[$signature]['http_code'] = 0;
-				
 				if (preg_match('/HTTP request[\s\w,]+...\s(\d+)/', $headline, $matches)) {
 					$list[$signature]['http_code'] = $matches[1];
 				}
-			}
-			if (empty($list[$signature]['http_code'])) {
-				$list[$signature]['http_code'] = 400;
 			}
 			switch ($list[$signature]['http_code']) {
 				case '200': // OK
@@ -87,7 +83,7 @@ class MainApp extends Index
 					if (preg_match_all('/(\d+)%[\s]+([\d\.(?:M|K|G)]+)(?:\s|\=)([\d.|h|m|s]+)/',$tailline, $matches)){
 						$list[$signature]['precentage'] = end($matches[1]);
 						$list[$signature]['speed'] = end($matches[2]);
-						$list[$signature]['estimated_time'] = end($matches[2]);
+						$list[$signature]['estimated_time'] = end($matches[3]);
 					}
 					break;
 				case '304': // Not Modified
@@ -112,22 +108,23 @@ class MainApp extends Index
 						$list[$signature]['status'] = 'error';
 					}
 					break;
-				case '400': // Bad Request	
+				case '400': // Bad Request
 				case '403': // Forbidden
 				case '404': // Not Found
-				case '500': // Internal Server Error					
+				case '500': // Internal Server Error
 				case '502': // Bad Gateway
 				case '503': // Service Unavailable
 					$list[$signature]['status'] = 'error';
-					break;				
-				case '0': // Parse progress file error	
+					break;
+				case '0': // Parse progress file error
 					break;
 			}
 			if (empty($content['filename'])) {
 				$list[$signature]['filename'] = $signature;
-			}			
+			}
 			if (isset($list[$signature]['precentage']) and $list[$signature]['precentage'] == 100) {
 				$list[$signature]['status'] = 'finished';
+				$list[$signature]['estimated_time'] = '0s';
 			}
 			file_put_contents($state_file, json_encode($list[$signature]));
 		}
