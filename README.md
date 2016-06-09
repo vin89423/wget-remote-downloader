@@ -39,4 +39,3 @@ Home server is a common device nowadays, some of the NAS also contain manageable
 
 ## TODO
 * Add retry mechanism.
-* Add download speed next to progress bar.
