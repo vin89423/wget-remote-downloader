@@ -164,10 +164,16 @@ DOWNLOAD = {
 		return 'fa-file-o';
 	},
 	getFileSize(bytes) {
-		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-		if (bytes == 0) return '0 Byte';
-		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+		var size = "";
+		if (bytes >= Math.pow(1024, 3)) {
+			return Math.round((parseInt((bytes / Math.pow(1024, 2)).toFixed()) / 1000) * 100) / 100 + ' GB'
+		} else if (bytes >= Math.pow(1024, 2)) {
+			return Math.round((parseInt((bytes / Math.pow(1024, 1)).toFixed()) / 1000) * 10) / 10 + ' MB';
+		} else if (bytes >= 1024) {
+			return Math.round(parseInt((bytes).toFixed()) / 1000) + ' KB';
+		} else {
+			return bytes + ' B';
+		}
 	},
 	loadList: function(){
 		$.ajax({
