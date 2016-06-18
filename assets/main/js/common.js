@@ -170,7 +170,7 @@ DOWNLOAD = {
 		} else if (bytes >= Math.pow(1024, 2)) {
 			return Math.round((parseInt((bytes / Math.pow(1024, 1)).toFixed()) / 1000) * 10) / 10 + ' MB';
 		} else if (bytes >= 1024) {
-			return Math.round(parseInt((bytes).toFixed()) / 1000) + ' KB';
+			return Math.round(parseInt((bytes)).toFixed() / 1000) + ' KB';
 		} else {
 			return bytes + ' B';
 		}
