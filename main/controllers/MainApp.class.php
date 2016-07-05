@@ -222,8 +222,8 @@ class MainApp extends Index
 		
 		file_put_contents($state_file, json_encode(array(
 			'status' => 'downloading',
-			'filename' => $file_name,
-			'url' => $url_link,
+			'filename' => $content['filename'],
+			'url' => $content['url'],
 		)));
 		
 		$command = "wget -U \"$user_agent\" --output-document=\"$download_file\" \"$url_link\" > /dev/null 2> \"$progress_file\" &";
