@@ -80,7 +80,7 @@ class MainApp extends Index
 						$list[$signature]['filesize'] = $matches[1];
 						$list[$signature]['filetype'] = $matches[2];
 					}
-					if (preg_match_all('/(\d+)%[\s]+([\d\.(?:M|K|G)]+)(?:\s|\=)([\d.|h|m|s]+)/',$tailline, $matches)){
+					if (preg_match_all('/(\d+)%[\s]+([\d\.(?:M|K|G)]+)\s?\=?\s?([\d.|h|m|s]+)/',$tailline, $matches)){
 						$list[$signature]['precentage'] = end($matches[1]);
 						$list[$signature]['speed'] = end($matches[2]);
 						$list[$signature]['estimated_time'] = end($matches[3]);
