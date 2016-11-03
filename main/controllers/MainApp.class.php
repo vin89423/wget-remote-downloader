@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright 2015 Vin Wong @ vinexs.com
+ * Copyright 2016 Vin Wong @ vinexs.com
  *
  * All rights reserved.
  */
@@ -357,7 +357,7 @@ class MainApp extends Index
     function load_default_vars()
     {
         parent::load_default_vars();
-        $this->vars['URL_REPOS'] = '//www.vinexs.com/repos/';
+        $this->vars['URL_REPOS'] = '//your-private-repos-server/repos/'; // Unnecessary
         $this->vars['URL_RSC'] = $this->vars['URL_ASSETS'] . $this->manifest['activity_current'] . '/';
     }
 
