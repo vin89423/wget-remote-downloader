@@ -1,12 +1,5 @@
 <?php
 
-# ============== Framework Variable ================
-$SETTING['account'] = array(
-	'{username}' => '{password}',
-);
-
-$SETTING['file_storage'] = '{wget-download-location}';
-
 $SETTING['user_agent'] = array(
 	'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246',
 	'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko',
