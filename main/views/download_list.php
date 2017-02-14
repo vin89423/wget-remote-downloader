@@ -28,17 +28,23 @@
 					<a class="filename" href="#" target="_blank">{FILENAME}</a>
 					<a class="url" href="#" target="_blank">{URL}</a>
 					<div class="action-ctrl">
-						<div class="progress" style="display: none;">
-							<div class="determinate" style="width: 0%"></div>
+						<div class="download-progress" style="display: none;">
+							<div class="progress">
+								<div class="determinate" style="width: 0%"></div>
+							</div>
+							<div class="row">
+								<div class="col s6 speed">-/kbps</div>
+								<div class="col s6 filesize">{FILESIZE}</div>
+							</div>
 						</div>
-						<a href="#" data-event="download" style="display: none;"><?php echo $this->lang('download_to_local'); ?></a>
+						<a href="#" data-event="download" style="display: none;"><?php echo $this->lang('download_to_local'); ?> ({FILESIZE})</a>
 						<a href="#" data-event="retry" style="display: none;"><?php echo $this->lang('retry'); ?></a>
 						<!--<a href="#" data-event="cancel" style="display: none;"><?php echo $this->lang('cancel_download'); ?></a>-->
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
 <div id="request-modal" class="modal">
 	<div class="modal-content">

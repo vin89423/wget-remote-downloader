@@ -2,33 +2,33 @@
 @import "bootstrap+.less";
 
 /* =============  Styled Nav Header ============= */
-body{
+body {
 	background-color: #ECEFF1;
 }
-nav{
-	.nav-wrapper{
+nav {
+	.nav-wrapper {
 		background-color: #34495E;
 	}
-	.brand-logo{
+	.brand-logo {
 		padding-left: 20px;
 		font-size:18px;
 	}
 }
-#login-form{
+#login-form {
 	margin: 20px auto;
 	width: 90%;
 	max-width: 500px;
 }
 
 
-#no-downloads{
+#no-downloads {
     color: #b4b4b4;
     font-size: 16px;
     font-weight: 500;
 	text-align: center;
-	.valign-wrapper{
+	.valign-wrapper {
 		min-height: 350px;
-		.valign{
+		.valign {
 			display: block;
 			text-align: center;
 			margin: 0 auto;
@@ -36,60 +36,66 @@ nav{
 		}
 	}
 }
-#download-list{
+#download-list {
     margin: 0 auto;
 	padding-top: 10px;
     width: 90%;
-	.row{
+	.row {
 		margin-bottom: 0px;
 	}
-	.card{
+	.card {
 		margin: 0.1rem 0 1rem 0;
 		padding-left: 80px;
 		padding-right: 30px;
-		.file-icon{
+		.file-icon {
 			position: absolute;
 			top: -0.0rem;
 			left: -0.0rem;
 			width: 80px;
 			height: 100%;
 			border-right: 1px solid #ccc;
-			.valign{
+			.valign {
 				width: 100%;
 				text-align: center;
 			}
 		}
-		.close{
+		.close {
 			position: absolute;
 			top: -0.0rem;
 			right: -0.0rem;
-			button{
+			button {
 				padding: 0 1rem;
 				background-color: transparent;
 				color: #ccc;
 				box-shadow: none !important;
 			}
 		}
-		.filename{
+		.filename {
 			display: block;
 			font-weight: 500;
 			word-break: break-all;
 			color: rgb(51, 103, 214);
 		}
-		.url{
+		.url {
 			display: block;
 			color: #999;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
 		}
-		.action-ctrl{
+		.action-ctrl {
 			margin: 16px 0 0 0;
 		}
-		.download-progress{
+		.download-progress {
 			height: 32px;
-			.progress{
+			.progress {
 				margin: 0.5rem 0;
+			}
+			.speed {
+			    text-align: left;
+			}
+			.filesize {
+				text-align: right;
 			}
 		}
 	}

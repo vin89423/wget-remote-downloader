@@ -23,8 +23,8 @@
     <script type="text/javascript" src="<?php echo $URL_ASSETS; ?>jextender/1.0.8/jExtender.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 	<link type="text/css" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link type="image/x-icon" rel="shortcut icon" href="<?php echo $URL_REPOS; ?>favicon.ico"/>
-    <link type="image/x-icon" rel="icon" href="<?php echo $URL_REPOS; ?>favicon.ico"/>
+    <link type="image/x-icon" rel="shortcut icon" href="<?php echo $URL_ASSETS; ?>favicon.ico"/>
+    <link type="image/x-icon" rel="icon" href="<?php echo $URL_ASSETS; ?>favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="format-detection" content="telephone=no"/>
@@ -65,13 +65,6 @@
     }
     ?>
 </article>
-<!--[if lt IE 9]>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-<link id="respond-proxy" rel="respond-proxy" href="<?php echo $URL_REPOS;?>respond/1.4.2/respond-proxy.html"/>
-<link id="respond-redirect" rel="respond-redirect"
-      href="<?php echo $URL_ROOT;?>/assets/respond/1.4.2/respond.proxy.gif"/>
-<script type="text/javascript" src="<?php echo $URL_ROOT;?>/assets/respond/1.4.2/respond.proxy.min.js"></script>
-<![endif]-->
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 <script type="text/javascript" src="<?php echo $URL_RSC; ?>js/common.js"></script>
 <!-- Completed: <?php echo number_format(microtime(true) - INIT_TIME_START, 5); ?>s -->

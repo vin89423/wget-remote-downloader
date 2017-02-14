@@ -36,6 +36,8 @@ DOWNLOAD = {
 		DOWNLOAD.initRequestDialog();
 		DOWNLOAD.initRemoveDialog();
 
+		$('.modal').modal();
+
 		$('a[data-event=add-request]').click(function(e){
 			e.preventDefault();
 			DOWNLOAD.openRequestDialog();
@@ -268,7 +270,7 @@ DOWNLOAD = {
 
 		$('#request-modal a[data-event=cancel]').click(function(e){
 			e.preventDefault();
-			$('#request-modal').closeModal();
+			$('#request-modal').modal('close');
 		});
 	},
 	initRemoveDialog: function(){
@@ -280,18 +282,16 @@ DOWNLOAD = {
 
 		$('#remove-modal [data-event=cancel]').click(function(e){
 			e.preventDefault();
-			$('#remove-modal').closeModal();
+			$('#remove-modal').modal('close');
 		});
 	},
 	openRequestDialog: function() {
 		$('#request-modal input').val('');
-		$('#request-modal').openModal({
-			dismissible: false
-		});
+		$('#request-modal').modal('open');
 	},
 	openRemoveDialog: function(signature){
 		$('#remove-modal').find('[data-signature]').attr('data-signature', signature);
-		$('#remove-modal').openModal();
+		$('#remove-modal').modal('open');
 	},
 	downloadRequest: function(url_link, filename) {
 		$.ajax({
@@ -302,7 +302,7 @@ DOWNLOAD = {
 				filename: filename
 			},
 			beforeSend: function(){
-				$('#request-modal').closeModal();
+				$('#request-modal').modal('close');
 			},
 			dataType: 'json',
 			success: function(json){
@@ -311,7 +311,7 @@ DOWNLOAD = {
 				}
 				setTimeout(function(){
 					DOWNLOAD.loadList();
-				}, 500)
+				}, 1000)
 			}
 		});
 	},
@@ -358,7 +358,7 @@ DOWNLOAD = {
 				'signature': signature
 			},
 			beforeSend: function(){
-				$('#remove-modal').closeModal();
+				$('#remove-modal').modal('close');
 			},
 			dataType: 'json',
 			success: function(json) {
