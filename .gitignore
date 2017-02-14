@@ -1,19 +1,17 @@
-# translation artifacts
-launchpad-*.tar.gz
+# Application Setting
+manifest.json
 
-# local config files
-local.properties
+# Movies & Subtitles
+sample-img/
 
-# working files
-*~
+# Setting
+main/settings/accounts.php
 
-# OS X sucks
-.DS_Store
-
-# SublimeText working files
-*.sublime-project
-*.sublime-workspace
-
-# Android Studio
-.gradle/
-build/
+## OS clutter
+*.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
