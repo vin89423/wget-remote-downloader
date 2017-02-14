@@ -20,7 +20,7 @@
           href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" class="respond" href="<?php echo $URL_RSC; ?>css/common.min.css"/>
     <script type="text/javascript" src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script type="text/javascript" src="//raw.githubusercontent.com/vinexs/jextender/master/src/jextender.min.js"></script>
+    <script type="text/javascript" src="<?php echo $URL_ASSETS; ?>jextender/1.0.8/jExtender.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 	<link type="text/css" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link type="image/x-icon" rel="shortcut icon" href="<?php echo $URL_REPOS; ?>favicon.ico"/>
