@@ -322,7 +322,7 @@ class Index
         $file_mime = finfo_file($finfo, $file_path, FILEINFO_MIME_TYPE);
         finfo_close($finfo);
 		## to support download continuously
-		if (isset($_SERVER['HTTP_RANGE'])) {		
+		if (isset($_SERVER['HTTP_RANGE'])) {
 			if (!preg_match("/^bytes=(\d+)?-(\d+)?/i", $_SERVER['HTTP_RANGE'], $matches)) {
 				$this->show_error(416);
 			}
@@ -348,7 +348,7 @@ class Index
 			header('Content-Type: ' . $file_mime);
 			echo file_get_contents( $file_path, false, null, $offset_start, $length );
 			exit();
-		}		
+		}
         ## output new file with header
         header('Content-Description: File Transfer');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $file_last_modified_at) . ' GMT');
@@ -655,7 +655,7 @@ class Index
             case 'timestamp':
                 return strtotime($var[$name]);
             case 'url':
-				return preg_match("/^http[s]?:\/\/([a-z0-9_-]+.)?[a-z0-9_\-]+.[a-z]{2,4}\//i", $var[$name]) ? $var[$name] : $default;
+				return preg_match("/^http[s]?:\/\/([a-z0-9_-]+.)*[a-z0-9_\-]+.[a-z]{2,4}\//i", $var[$name]) ? $var[$name] : $default;
         }
         return null;
     }
