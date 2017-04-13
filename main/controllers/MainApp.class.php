@@ -37,7 +37,7 @@ class MainApp extends Index
 		$vars['CONTAIN_VIEW'] = 'login';
         $this->load_view('frame_layout', $vars);
 	}
-	
+
 	function handler_get_list()
 	{
 		if (!$this->check_login()) {
@@ -130,17 +130,17 @@ class MainApp extends Index
 		}
 		$this->show_json(true, $list);
 	}
-	
+
 	function handler_request()
 	{
 		if (!$this->check_login()) {
 			$this->show_json(false, 'require_login');
 		}
-		
+
 		$url_link = $this->post('url_link', 'url', null);
 		$file_name = $this->post('filename', 'string');
 		$signature = date('Ymd-His').'-'.rand(1000,9999);
-		
+
 		if (empty($url_link)) {
 			$this->show_json(false, 'invalid_param');
 		}
@@ -155,18 +155,18 @@ class MainApp extends Index
 		if (! file_exists($storage_location)) {
 			mkdir($storage_location, 0770, true);
 		}
-		
+
 		file_put_contents($state_file, json_encode(array(
 			'status' => 'downloading',
 			'filename' => $file_name,
 			'url' => $url_link,
 		)));
-		
+
 		$command = "wget -U \"$user_agent\" --output-document=\"$download_file\" \"$url_link\" > /dev/null 2> \"$progress_file\" &";
 		shell_exec ($command);
 		$this->show_json(true);
 	}
-	
+
 	/*
 	function handler_request_cancel()
 	{
@@ -177,10 +177,10 @@ class MainApp extends Index
 		if (empty($signature)) {
 			$this->show_json(false, 'invalid_param');
 		}
-		
+
 		$state_file = $this->setting['file_storage'] . $this->user .'/'. $signature .'.stat';
 		$content = json_decode(file_get_contents($state_file), true);
-		
+
 		if ($content['status'] != 'downloading') {
 			$this->show_json(false, 'invalid_action');
 		}
@@ -190,17 +190,17 @@ class MainApp extends Index
 			$this->show_json(false, 'invalid_pid');
 		}
 		exec('kill -15 '. $content['pid']);
-		
+
 		$user_dir = dirname($state_file).'/';
 		unlink($user_dir . $file_signature .'.file');
 		unlink($user_dir . $file_signature .'.prog');
-		$content['status'] = 'cancel';		
+		$content['status'] = 'cancel';
 		file_put_contents($state_file, json_encode($content));
-		
+
 		$this->show_json(true);
 	}
 	*/
-	
+
 	function handler_request_retry()
 	{
 		if (!$this->check_login()) {
@@ -214,23 +214,23 @@ class MainApp extends Index
 		$state_file = $storage_location . $signature .'.stat';
 		$download_file = $storage_location . $signature .'.file';
 		$progress_file = $storage_location . $signature .'.prog';
-		
-		$content = json_decode(file_get_contents($state_file), true);		
+
+		$content = json_decode(file_get_contents($state_file), true);
 		if (empty($content['url'])) {
 			$this->show_json(false, 'cannot_retry');
 		}
-		
+
 		file_put_contents($state_file, json_encode(array(
 			'status' => 'downloading',
 			'filename' => $content['filename'],
 			'url' => $content['url'],
 		)));
-		
+
 		$command = "wget -U \"$user_agent\" --output-document=\"$download_file\" \"$url_link\" > /dev/null 2> \"$progress_file\" &";
 		shell_exec ($command);
 		$this->show_json(true);
 	}
-	
+
 	function handler_get_file()
 	{
 		if (!$this->check_login()) {
@@ -240,24 +240,27 @@ class MainApp extends Index
 		if (empty($signature)) {
 			$this->show_error(404);
 		}
-		
+
 		$state_file = $this->setting['file_storage'] . $this->user .'/'. $signature .'.stat';
 		$download_file = $this->setting['file_storage'] . $this->user .'/'. $signature .'.file';
 		$content = json_decode(file_get_contents($state_file), true);
-		
+
 		if ($content['status'] != 'finished' or !file_exists($download_file)) {
 			$this->show_error(404);
 		}
 		if (($ext = pathinfo($content['filename'], PATHINFO_EXTENSION)) == "") {
 			$content['filename'] = $content['filename'] .'.'. $this->get_expect_extension($content['filetype']);
 		}
+
+        set_time_limit(0);
+
         header('Content-Description: File Transfer');
 		header('Content-disposition: attachment; filename="'. $content['filename'] .'"');
         header('Content-Type: '. $content['filetype']);
         header('Connection: close');
 		readfile($download_file);
 	}
-	
+
 	function handler_request_remove()
 	{
 		if (!$this->check_login()) {
@@ -273,7 +276,7 @@ class MainApp extends Index
 			$this->show_json(false, 'list_empty');
 		}
 		$list = array();
-		foreach ($state_list as $state_file) {			
+		foreach ($state_list as $state_file) {
 			$file_signature = basename($state_file, '.stat');
 			if ($file_signature == $signature or $signature == 'all_signature') {
 				$user_dir = dirname($state_file).'/';
@@ -284,7 +287,7 @@ class MainApp extends Index
 		}
 		$this->show_json(true);
 	}
-	
+
 	function get_expect_extension($mime)
 	{
 		if (!empty($this->setting['mime'][$mime])) {
@@ -292,13 +295,13 @@ class MainApp extends Index
 		}
 		return 'file';
 	}
-	
+
 	function get_user_agent()
 	{
 		$index = rand(0, count($this->setting['user_agent']) - 1);
 		return $this->setting['user_agent'][$index];
 	}
-	
+
     // Add handler here ...
 
     /** Allow developer to custom error response. */
