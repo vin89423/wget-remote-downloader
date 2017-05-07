@@ -67,13 +67,14 @@ class MainApp extends Index
 			$headline = implode("\n", $headline);
 			$tailline = implode("\n", $tailline);
 
-			if (preg_match('/^--([0-9\-:\s]+)--\s+(https?:\/\/.+)/', $headline, $matches)) {
+			if (preg_match('/--([0-9\-:\s]+)--\s+(https?:\/\/.+)/', $headline, $matches)) {
 				$list[$signature]['date'] = $matches[1];
 				$list[$signature]['url'] = $matches[2];
 				if (preg_match('/HTTP request[\s\w,]+...\s(\d+)/', $headline, $matches)) {
 					$list[$signature]['http_code'] = $matches[1];
 				}
 			}
+
 			switch ($list[$signature]['http_code']) {
 				case '200': // OK
 					if (preg_match('/Length:\s(\d+)\s\([\d\w\W]+\)\s\[([\w\-\/]+)\]/', $headline, $matches)) {
@@ -96,7 +97,7 @@ class MainApp extends Index
 								$list[$signature]['filesize'] = $matches[1];
 								$list[$signature]['filetype'] = $matches[2];
 							}
-							if (preg_match_all('/(\d+)%[\s]+([\d\.(?:M|K|G)]+)(?:\s|\=)([\d.|h|m|s]+)/',$tailline, $matches)) {
+							if (preg_match_all('/(\d+)%[\s]+([\d\.(?:M|K|G)]+)\s?\=?\s?([\d.|h|m|s]+)/',$tailline, $matches)) {
 								$list[$signature]['precentage'] = !empty($matches[1][0]) ? end($matches[1]) : 100;
 								$list[$signature]['speed'] = end($matches[2]);
 								$list[$signature]['estimated_time'] = end($matches[3]);
@@ -119,6 +120,7 @@ class MainApp extends Index
 				case '0': // Parse progress file error
 					break;
 			}
+
 			if (empty($content['filename'])) {
 				$list[$signature]['filename'] = $signature;
 			}
