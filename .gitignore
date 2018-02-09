@@ -1,17 +1,3 @@
-# Application Setting
-manifest.json
+# Please set your own .gitignore in your open source project before upload.
 
-# Movies & Subtitles
-sample-img/
-
-# Setting
-main/settings/accounts.php
-
-## OS clutter
-*.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+node_modules/
