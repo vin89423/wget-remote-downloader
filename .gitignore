@@ -1,3 +1,7 @@
 # Please set your own .gitignore in your open source project before upload.
 
 node_modules/
+
+# wget-remote-downloader
+startup.php
+main/settings/accounts.php
