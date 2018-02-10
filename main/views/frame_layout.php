@@ -16,13 +16,13 @@
     <!--[if lt IE 9]>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
-    <link class="respond" type="text/css" rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css" />
     <link type="text/css" rel="stylesheet" class="respond" href="<?php echo $URL_RSC; ?>css/common.min.css"/>
     <script type="text/javascript" src="//code.jquery.com/jquery-2.2.4.min.js"></script>
     <script type="text/javascript" src="<?php echo $URL_ASSETS; ?>jextender/1.0.8/jExtender.min.js"></script>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-	<link type="text/css" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.css">
     <link type="image/x-icon" rel="shortcut icon" href="<?php echo $URL_ASSETS; ?>favicon.ico"/>
     <link type="image/x-icon" rel="icon" href="<?php echo $URL_ASSETS; ?>favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
@@ -32,40 +32,42 @@
           content="root=<?php echo $URL_ROOT; ?>, activity=<?php echo $URL_ACTIVITY; ?>, repos=<?php echo $URL_REPOS; ?>, rsc=<?php echo $URL_RSC; ?>"/>
 </head>
 <body data-lang="<?php echo $LANGUAGE; ?>">
-<nav>
-	<div class="nav-wrapper">
-		<a href="#!" class="brand-logo"><?php echo $this->lang('title'); ?></a>
-		<?php
-		if ($logged) {
-			?>
-			<a href="#" data-activates="mobile-nav" class="button-collapse">
-				<i class="material-icons">menu</i>
-			</a>
-			<ul class="right hide-on-med-and-down">
-				<li><a href="#" data-event="remove_all"><?php echo $this->lang('remove_all'); ?></a></li>
-				<li><a href="#" data-event="logout"><?php echo $this->lang('logout'); ?></a></li>
-			</ul>
-			<ul class="side-nav" id="mobile-nav">
-				<li><a href="#" data-event="remove_all"><?php echo $this->lang('remove_all'); ?></a></li>
-				<li><a href="#" data-event="logout"><?php echo $this->lang('logout'); ?></a></li>
-			</ul>
-			<?php
-		}
-		?>
-	</div>
-</nav>
-<article id="main-container">
-    <?php
-    if (!is_array($CONTAIN_VIEW)) {
-        $this->load_view($CONTAIN_VIEW);
-    } else {
-        foreach ($CONTAIN_VIEW as $VIEW) {
-            $this->load_view($VIEW);
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title"><?php echo $this->lang('title'); ?></span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+        <!-- Navigation. We hide it in small screens. -->
+        <nav class="mdl-navigation">
+        <?php
+    	if ($logged) {
+    		?>
+            <a class="mdl-navigation__link" href="#" data-event="remove_all"><i class="material-icons">delete</i></a>
+            <a class="mdl-navigation__link" href="#" data-event="logout"><i class="material-icons">exit_to_app</i></a>
+            <?php
         }
-    }
-    ?>
-</article>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+        ?>
+        </nav>
+        </div>
+    </header>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <?php
+            if (!is_array($CONTAIN_VIEW)) {
+                $this->load_view($CONTAIN_VIEW);
+            } else {
+                foreach ($CONTAIN_VIEW as $VIEW) {
+                    $this->load_view($VIEW);
+                }
+            }
+            ?>
+        </div>
+    </main>
+</div>
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js"></script>
 <script type="text/javascript" src="<?php echo $URL_RSC; ?>js/common.js"></script>
 <!-- Completed: <?php echo number_format(microtime(true) - INIT_TIME_START, 5); ?>s -->
 </body>

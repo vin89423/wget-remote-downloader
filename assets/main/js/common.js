@@ -36,42 +36,53 @@ DOWNLOAD = {
 		DOWNLOAD.initRequestDialog();
 		DOWNLOAD.initRemoveDialog();
 
-		$('.modal').modal();
-
-		$('a[data-event=add-request]').click(function(e){
+		$('[data-event=add-request]').click(function(e){
 			e.preventDefault();
 			DOWNLOAD.openRequestDialog();
 		});
 
-		$('a[data-event=remove_all]').click(function(e){
+		$('[data-event=remove_all]').click(function(e){
 			e.preventDefault();
-			DOWNLOAD.removeRequest('all_signature');
+			DOWNLOAD.openRemoveDialog('all_signature');
 		});
 
-		$('a[data-event=logout]').click(function(e){
+		$('[data-event=logout]').click(function(e){
 			e.preventDefault();
 			DOWNLOAD.logout();
 		});
 
-		$(".button-collapse").sideNav();
-
 		setInterval(function(){
-			if ($('#download-list .card[data-status=downloading]').length > 0) {
+			if ($('#download-list [data-status=downloading]').length > 0) {
 				DOWNLOAD.loadList();
 			}
 		}, 5000);
 
 	},
 	login: function(){
-		var hasError = false;
-		var $username = $('input#username');
-		var $password = $('input#password');
+		var hasError = false,
+			snackbar = $('#snackbar-login-fail').get(0),
+			$username = $('input[name=username]'),
+			$password = $('input[name=password]');
 		if ($username.isEmpty()) {
-			$username.addClass('invalid');
+			snackbar.MaterialSnackbar.showSnackbar({
+				message: $.lang('username_cannot_blank'),
+				timeout: 2000,
+				actionText: $.lang('retry'),
+				actionHandler: function() {
+					$username.focus();
+				}
+			});
 			hasError = true;
 		}
 		if ($password.isEmpty()) {
-			$password.addClass('invalid');
+			snackbar.MaterialSnackbar.showSnackbar({
+				message: $.lang('password_cannot_blank'),
+				timeout: 2000,
+				actionText: $.lang('retry'),
+				actionHandler: function() {
+					$password.focus();
+				}
+			});
 			hasError = true;
 		}
 		if (hasError) {
@@ -88,7 +99,15 @@ DOWNLOAD = {
 			dataType: 'json',
 			success: function(json){
 				if (json.status != 'OK') {
-					return Materialize.toast($.lang('username_not_exist'), 4000);
+					snackbar.MaterialSnackbar.showSnackbar({
+						message: $.lang('username_not_exist'),
+						timeout: 2000,
+						actionText: $.lang('retry'),
+						actionHandler: function() {
+							$username.focus();
+						}
+					});
+					return;
 				}
 				location.href = $.url.activity;
 			}
@@ -102,29 +121,29 @@ DOWNLOAD = {
 		switch (mime) {
 		// Type application
 			case 'application/msword':
-				return 'fa-file-word-o';
+				return 'mdi-file-word';
 			case 'application/pdf':
-				return 'fa-file-pdf-o';
+				return 'mdi-file-pdf';
 			case 'application/vnd.ms-excel':
-				return 'fa-file-excel-o';
+				return 'mdi-file-excel';
 			case 'application/vnd.ms-powerpoint':
-				return 'fa-file-powerpoint-o';
+				return 'mdi-file-powerpoint';
 			case 'application/x-dvi':
-				return 'fa-file-video-o';
+				return 'mdi-file-video';
 			case 'application/x-shockwave-flash':
 			case 'application/xhtml+xml':
-				return 'fa-file-o';
+				return 'mdi-file';
 			case 'application/x-rar-compressed':
 			case 'application/x-7z-compressed':
 			case 'application/x-tar':
 			case 'application/zip':
-				return 'fa-file-archive-o';
+				return 'mdi-zip-box';
 		// Type audio
 			case 'audio/mpeg':
 			case 'audio/vnd.rn-realaudio':
 			case 'audio/x-wav':
 			case 'audio/x-ms-wma':
-				return 'fa-file-audio-o';
+				return 'mdi-file-music';
 		// Type image
 			case 'image/gif':
 			case 'image/vnd.microsoft.icon':
@@ -132,15 +151,15 @@ DOWNLOAD = {
 			case 'image/png':
 			case 'image/tiff':
 			case 'image/webp':
-				return 'fa-file-image-o';
+				return 'mdi-file-image';
 		// Type text
 			case 'text/plain':
-				return 'fa-file-text-o';
+				return 'mdi-file-document';
 			case 'text/css':
 			case 'text/html':
 			case 'text/javascript':
 			case 'text/xml':
-				return 'fa-file-code-o';
+				return 'mdi-file-xml';
 		// Type video
 			case 'video/flv':
 			case 'video/x-flv':
@@ -151,19 +170,19 @@ DOWNLOAD = {
 			case 'video/webm':
 			case 'video/x-ms-wmv':
 			case 'video/3gpp':
-				return 'fa-file-video-o';
+				return 'mdi-file-video';
 		// Type binary
 			case 'application/octet-stream':
-				return 'fa-file-o';
+				return 'mdi-file';
 		// Type font
 			case 'application/vnd.ms-fontobject':
 			case 'application/x-font-opentype':
 			case 'image/svg+xml':
 			case 'application/x-font-ttf':
 			case 'application/x-font-woff':
-				return 'fa-font';
+				return 'mdi-file';
 		}
-		return 'fa-file-o';
+		return 'mdi-file';
 	},
 	getFileSize(bytes) {
 		var size = "";
@@ -194,7 +213,7 @@ DOWNLOAD = {
 				var list = json.data;
 				var $cardTemplate = $('#item-template');
 				for (var signature in list) {
-					if ($('.card[data-signature='+ signature +']').length == 0) {
+					if ($('#download-list [data-signature='+ signature +']').length == 0) {
 						var card = $cardTemplate.html();
 						var $card = $(card.replaceAll('{SIGNATURE}', signature)
 												.replaceAll('{STATUS}', list[signature].status)
@@ -203,26 +222,28 @@ DOWNLOAD = {
 												.replaceAll('{FILESIZE}', DOWNLOAD.getFileSize(list[signature].filesize))
 												.replaceAll('{ETA}', list[signature].estimated_time)
 												.replaceAll('{SPEED}', list[signature].speed));
-						$card.find('.file-icon i.fa').addClass(DOWNLOAD.getMimeIcon(list[signature].filetype));
-						$card.find('a.filename, a.url').attr('href', list[signature].url);
+						$card.find('header .mdi').addClass(DOWNLOAD.getMimeIcon(list[signature].filetype));
+						$card.find('a.url').attr('href', list[signature].url);
 						$('#download-list').prepend($card);
 					} else {
-						$card = $('.card[data-signature='+ signature +']');
+						$card = $('#download-list [data-signature='+ signature +']');
 					}
 					$card.attr('data-status', list[signature].status);
 					switch (list[signature].status) {
 						case 'finished':
-							$card.find('.download-progress, .action-ctrl a[data-event]').hide();
+							$card.find('.download-progress, [data-event=retry]').hide();
 							$card.find('[data-event=download]').show();
 							break;
 						case 'cancel':
 						case 'error':
-							$card.find('.download-progress, .action-ctrl a[data-event]').hide();
+							$card.find('.download-progress, [data-event=download]').hide();
 							$card.find('[data-event=retry]').show();
 							break;
 						case 'downloading':
+							var mdlProgress = $card.find('.download-progress .mdl-progress').get(0);
+							mdlProgress.MaterialProgress.setProgress(list[signature].precentage);
+  							mdlProgress.MaterialProgress.setBuffer(list[signature].precentage);
 							$card.find('.download-progress .speed').html(list[signature].estimated_time +' - '+ list[signature].speed);
-							$card.find('.download-progress .determinate').css('width', list[signature].precentage +'%');
 							$card.find('.download-progress, [data-event=cancel]').show();
 							break;
 					}
@@ -231,67 +252,85 @@ DOWNLOAD = {
 		});
 	},
 	setListEvent: function(){
-		$('#download-list').on('click', '.card [data-event]', function(e){
-			e.preventDefault();
-			var $btn = $(this);
-			var $card = $btn.parents('.card[data-signature]');
-			var signature = $card.attr('data-signature');
-			switch ($btn.attr('data-event')) {
-				case 'download':
-					DOWNLOAD.fileRequest(signature);
-					break;
-				case 'retry':
-					DOWNLOAD.retryRequest($card, signature);
-					break;
-				case 'cancel':
-					DOWNLOAD.cancelRequest($card, signature);
-					break;
-				case 'remove':
-					DOWNLOAD.openRemoveDialog(signature);
-					break;
-			}
-		});
+		$('#download-list')
+			.on('click', '[data-signature] [data-event]', function(e){
+				e.preventDefault();
+				var $btn = $(this);
+				var $card = $btn.parents('[data-signature]');
+				var signature = $card.attr('data-signature');
+				switch ($btn.attr('data-event')) {
+					case 'download':
+						DOWNLOAD.fileRequest(signature);
+						break;
+					case 'retry':
+						DOWNLOAD.retryRequest($card, signature);
+						break;
+					case 'cancel':
+						DOWNLOAD.cancelRequest($card, signature);
+						break;
+					case 'remove':
+						DOWNLOAD.openRemoveDialog(signature);
+						break;
+				}
+			});
 	},
-	initRequestDialog: function(){
-		$('#request-modal a[data-event=download]').click(function(e){
-			e.preventDefault();
-			var hasError = false;
-			var $url = $('input#url');
-			var $filename = $('input#filename');
-			if ($url.isEmpty() || !$url.val().isURL()) {
-				$url.addClass('invalid');
-				hasError = true;
-			}
-			if (hasError) {
-				return;
-			}
-			DOWNLOAD.downloadRequest($url.val(), $filename.val());
-		});
-
-		$('#request-modal a[data-event=cancel]').click(function(e){
-			e.preventDefault();
-			$('#request-modal').modal('close');
-		});
+	initRequestDialog: function() {
+		var $requestDialog = $('#request-dialog'),
+			requestDialog = $requestDialog.get(0);
+		$requestDialog
+			.on('click', '[data-event=download]', function(e) {
+				e.preventDefault();
+				var hasError = false;
+				var $url = $('input[name=url]');
+				var $filename = $('input[name=filename]');
+				if ($url.isEmpty() || !$url.val().isURL()) {
+					$url.addClass('invalid');
+					hasError = true;
+				}
+				if (hasError) {
+					return;
+				}
+				DOWNLOAD.downloadRequest($url.val(), $filename.val());
+				requestDialog.close();
+			})
+			.on('click', '[data-event=cancel]', function(e) {
+				e.preventDefault();
+				requestDialog.close();
+			});
 	},
-	initRemoveDialog: function(){
-		$('#remove-modal [data-event=remove]').click(function(e){
-			e.preventDefault();
-			var signature = $('#remove-modal [data-signature]').attr('data-signature');
-			DOWNLOAD.removeRequest(signature);
-		});
-
-		$('#remove-modal [data-event=cancel]').click(function(e){
-			e.preventDefault();
-			$('#remove-modal').modal('close');
-		});
+	initRemoveDialog: function() {
+		var $removeDialog = $('#remove-dialog'),
+			removeDialog = $removeDialog.get(0);
+		$removeDialog
+			.on('click', '[data-event=remove]', function(e) {
+				e.preventDefault();
+				var signature = $('#remove-dialog [data-signature]').attr('data-signature');
+				DOWNLOAD.removeRequest(signature);
+				removeDialog.close();
+			})
+			.on('click', '[data-event=cancel]', function(e) {
+				e.preventDefault();
+				removeDialog.close();
+			});
 	},
 	openRequestDialog: function() {
-		$('#request-modal input').val('');
-		$('#request-modal').modal('open');
+		var $dialog = $('#request-dialog'),
+			dialog = $dialog.get(0);
+		$dialog.find('input').val('');
+		if (!dialog.showModal) {
+			dialogPolyfill.registerDialog(dialog);
+		}
+		dialog.showModal();
 	},
 	openRemoveDialog: function(signature){
-		$('#remove-modal').find('[data-signature]').attr('data-signature', signature);
-		$('#remove-modal').modal('open');
+		var $dialog = $('#remove-dialog'),
+			dialog = $dialog.get(0);
+		$dialog.find('[data-signature]').attr('data-signature', signature);
+		$dialog.find('p').text(signature == 'all_signature' ? $.lang('confirm_to_delete_ask_all') : $.lang('confirm_to_delete_ask'));
+		if (!dialog.showModal) {
+			dialogPolyfill.registerDialog(dialog);
+		}
+		dialog.showModal();
 	},
 	downloadRequest: function(url_link, filename) {
 		$.ajax({
@@ -302,7 +341,7 @@ DOWNLOAD = {
 				filename: filename
 			},
 			beforeSend: function(){
-				$('#request-modal').modal('close');
+				$('#request-dialog').get(0).close();
 			},
 			dataType: 'json',
 			success: function(json){
@@ -328,25 +367,32 @@ DOWNLOAD = {
 			dataType: 'json',
 			success: function(json) {
 				if (json.status == 'OK') {
-					$card.find('.download-progress, .action-ctrl a[data-event]').hide();
-					$card.find('.action-ctrl [data-event=retry]').show();
+					$card.find('.download-progress, [data-event=download], [data-event=cancel]').hide();
+					$card.find('[data-event=retry]').show();
 				}
 			}
 		});
 	},
 	retryRequest: function($card, signature){
 		$.ajax({
-			url: $.url.activity +'request_retry?'+ $.now(),
+			url: $.url.activity + 'request?'+ $.now(),
 			type: 'POST',
 			data: {
-				'signature': signature
+				url_link: $card.find('a.url').attr('href'),
+				filename: $card.find('filename').text(),
+			},
+			beforeSend: function(){
+				DOWNLOAD.removeRequest(signature);
+				$('#request-dialog').get(0).close();
 			},
 			dataType: 'json',
-			success: function(json) {
-				$card.find('.action-ctrl [data-event]').hide();
-				$card.find('.download-progress .determinate').css('width', '0%');
-				$card.find('.download-progress, .action-ctrl [data-event=cancel]').show();
-				DOWNLOAD.loadList();
+			success: function(json){
+				if (json.status != 'OK') {
+					return;
+				}
+				setTimeout(function(){
+					DOWNLOAD.loadList();
+				}, 1000)
 			}
 		});
 	},
@@ -358,18 +404,18 @@ DOWNLOAD = {
 				'signature': signature
 			},
 			beforeSend: function(){
-				$('#remove-modal').modal('close');
+				$('#remove-dialog').get(0).close();
 			},
 			dataType: 'json',
 			success: function(json) {
-				$('#remove-modal [data-signature]').attr('data-signature', '');
+				$('#remove-dialog [data-signature]').attr('data-signature', '');
 				if (json.status == 'OK') {
 					if ( signature == 'all_signature') {
-						$('#download-list .item.row').remove();
+						$('#download-list [data-signature]').remove();
 					} else {
-						$('.card[data-signature='+ signature +']').parents('.item.row').remove();
+						$('#download-list [data-signature='+ signature +']').remove();
 					}
-					if ($('#download-list .card[data-signature]').length == 0) {
+					if ($('#download-list [data-signature]').length == 0) {
 						$('#download-list').hide().html('');
 						$('#no-downloads').show();
 					}
