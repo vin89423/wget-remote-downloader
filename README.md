@@ -26,7 +26,7 @@ Home server is a common device nowadays, some of the NAS also contain manageable
 
 
 ### How to use
-#### 1. Modify startup.php
+__1. Modify startup.php__
 You can use config tool to create your own startup.php setting.
 https://www.vinexs.com/boxset/getting_start
 
@@ -37,7 +37,7 @@ https://www.vinexs.com/boxset/getting_start
 | session['token'] | Login cookie name. |
 | session['encrypt'] | Login cookie encryption key. |
 
-#### 2. Modify main/settings/accounts.php
+__2. Modify main/settings/accounts.php__
 | Param | Description |
 | --- | --- |
 | $SETTING['account'] | Download user and password. |
