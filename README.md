@@ -13,12 +13,15 @@ Home server is a common device nowadays, some of the NAS also contain manageable
 
 ### Screenshot
 1. This is how the application look like at first.
+
 ![](screenshots/screenshot_1.png "Login to remote downloader")
 
 2. To create wget download request.
+
 ![](screenshots/screenshot_2.png "Create Request")
 
-3. Request will be shown like this, after wget finish download. Download to local button will appear
+3. Request will be shown like this, after wget finish download. Download to local button will appear.
+
 ![](screenshots/screenshot_3.png "Download List")
 
 
