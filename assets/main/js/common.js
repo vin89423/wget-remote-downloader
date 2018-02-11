@@ -240,11 +240,12 @@ DOWNLOAD = {
 							$card.find('[data-event=retry]').show();
 							break;
 						case 'downloading':
-							var mdlProgress = $card.find('.download-progress .mdl-progress').get(0);
-							mdlProgress.MaterialProgress.setProgress(list[signature].precentage);
-  							mdlProgress.MaterialProgress.setBuffer(list[signature].precentage);
 							$card.find('.download-progress .speed').html(list[signature].estimated_time +' - '+ list[signature].speed);
 							$card.find('.download-progress, [data-event=cancel]').show();
+							var $mdlProgress = $card.find('.download-progress .mdl-progress');
+							$mdlProgress.find('.progressbar').css('width', list[signature].precentage +'%');
+							$mdlProgress.find('.bufferbar').css('width', list[signature].precentage +'%');
+							$mdlProgress.find('.auxbar').css('width', '100%');
 							break;
 					}
 				}

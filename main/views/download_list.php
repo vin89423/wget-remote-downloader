@@ -21,7 +21,7 @@
 		<div class="mdl-cell mdl-cell--10-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
 			<div class="mdl-card" style="width: 100%; min-height: auto;">
 				<div class="mdl-card__title">
-					<label class="mdl-card__title-text" style="font-size: 12px;"><span class="filename" style="font-size: 16px;">{FILENAME}</span> ({FILESIZE})</label>
+					<label class="mdl-card__title-text" style="font-size: 12px;"><span class="filename" style="font-size: 16px;">{FILENAME}</span></label>
 				</div>
 				<div class="mdl-card__supporting-text">
 					<a class="url" href="#" target="_blank" style="display: block; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;">{URL}</a>
@@ -30,14 +30,14 @@
 							<div class="mdl-progress mdl-js-progress is-upgraded"></div>
 						</div>
 						<div class="mdl-grid">
-							<div class="mdl-cell mdl-cell--6 mdl-cell--4-col-tablet mdl-cell--4-col-phone speed">-/kbps</div>
-							<div class="mdl-cell mdl-cell--6 mdl-cell--4-col-tablet mdl-cell--4-col-phone filesize">{FILESIZE}</div>
+							<div class="mdl-cell mdl-cell--6 mdl-cell--4-col-tablet mdl-cell--2-col-phone speed">-/kbps</div>
+							<div class="mdl-cell mdl-cell--6 mdl-cell--4-col-tablet mdl-cell--2-col-phone filesize">{FILESIZE}</div>
 						</div>
 					</div>
 				</div>
 				<div class="mdl-card__actions mdl-card--border">
 					<a href="#" class="mdl-button" data-event="download" style="display: none;">
-						<i class="material-icons">cloud_download</i> <?php echo $this->lang('download_to_local'); ?>
+						<i class="material-icons">cloud_download</i> <?php echo $this->lang('download_to_local'); ?> ({FILESIZE})
 					</a>
 					<a href="#" class="mdl-button" data-event="retry" style="display: none;"><?php echo $this->lang('retry'); ?></a>
 					<!--<a href="#" class="mdl-button" data-event="cancel" style="display: none;"><?php echo $this->lang('cancel_download'); ?></a>-->
