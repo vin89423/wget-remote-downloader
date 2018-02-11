@@ -6,9 +6,9 @@ $START_UP = array(
 		'domain' => '{domain}',
 		'root' => '{url-root}',
 	),
-	// For basic member authorization.
+	// For basic member authorization. [NECESSARY]
 	'session' => array(
-		'token' => 'APP_TOKEN',
+		'token' => 'RD_TOKEN',
 		'encrypt' => '{encrypt-key}',
 	),
 	// Application routing. [NECESSARY]
@@ -17,27 +17,9 @@ $START_UP = array(
 			'main' => array(
 				'launch' => 'MainApp',
 				'storage' => '{file-storage-path}',
-				'languageSource' => 'test_db',
-				'language' => array('en', 'zt', 'zs'),
-			),
-			'cms' => array(
-				'launch' => 'CmsApp',
-				'storage' => '{file-storage-path}',
 				'languageSource' => 'ini',
-				'language' => array('en', 'zt', 'zs'),
-				'inherit' => array(
-					array('modules/cms_module_1.0/', 'CmsAppBase')
-				)
-			),
+				'language' => array('en', 'zt'),
+			)
 		),
-	),
-	// Database connection.
-	'database' => array(
-		'test_db' => array(
-			'host' => '{sql-host}',
-			'user' => '{user-name}',
-			'password' => '{user-password}',
-			'db_name' => '{database-name}',
-		)
-	),
+	)
 );
