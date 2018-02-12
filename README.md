@@ -33,14 +33,14 @@ https://www.vinexs.com/boxset/getting_start
 
 | Param | Description |
 | --- | --- |
-| url['domain'] | Hosting domain name. |
-| url['root'] | Url between domain and index.php, if it is in root of web server, put / in this field. |
-| session['token'] | Login cookie name. |
-| session['encrypt'] | Login cookie encryption key. |
+| url['domain'] | Hosting domain name. Just domain, no slash end. |
+| url['root'] | Url between domain and index.php. Start with / (slash), leave / if already in root. |
+| session['token'] | Login cookie name. In this project, use __RD_TOKEN__ . |
+| session['encrypt'] | Login cookie encryption key. A 32 char string. |
 
 __2. Modify main/settings/accounts.php__
 
 | Param | Description |
 | --- | --- |
-| $SETTING['account'] | Download user and password. |
+| $SETTING['account'] | Downloader user and password. |
 | $SETTING['file_storage'] | It is where the file will store. |
