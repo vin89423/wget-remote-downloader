@@ -203,36 +203,6 @@ class MainApp extends Index
 	}
 	*/
 
-	function handler_request_retry()
-	{
-		if (!$this->check_login()) {
-			$this->show_json(false, 'require_login');
-		}
-		$signature = $this->post('signature', 'string');
-		if (empty($signature)) {
-			$this->show_json(false, 'invalid_param');
-		}
-		$storage_location = $this->setting['file_storage'] . $this->user .'/';
-		$state_file = $storage_location . $signature .'.stat';
-		$download_file = $storage_location . $signature .'.file';
-		$progress_file = $storage_location . $signature .'.prog';
-
-		$content = json_decode(file_get_contents($state_file), true);
-		if (empty($content['url'])) {
-			$this->show_json(false, 'cannot_retry');
-		}
-
-		file_put_contents($state_file, json_encode(array(
-			'status' => 'downloading',
-			'filename' => $content['filename'],
-			'url' => $content['url'],
-		)));
-
-		$command = "wget -U \"$user_agent\" --output-document=\"$download_file\" \"$url_link\" > /dev/null 2> \"$progress_file\" &";
-		shell_exec ($command);
-		$this->show_json(true);
-	}
-
 	function handler_get_file()
 	{
 		if (!$this->check_login()) {
