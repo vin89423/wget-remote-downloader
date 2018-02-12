@@ -16,7 +16,6 @@ $START_UP = array(
 		'activity' => array(
 			'main' => array(
 				'launch' => 'MainApp',
-				'storage' => '{file-storage-path}',
 				'languageSource' => 'ini',
 				'language' => array('en', 'zt'),
 			)
