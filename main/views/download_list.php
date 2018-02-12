@@ -37,7 +37,7 @@
 				</div>
 				<div class="mdl-card__actions mdl-card--border">
 					<a href="#" class="mdl-button" data-event="download" style="display: none;">
-						<i class="material-icons">cloud_download</i> <?php echo $this->lang('download_to_local'); ?> ({FILESIZE})
+						<i class="material-icons">cloud_download</i> <?php echo $this->lang('download_to_local'); ?>
 					</a>
 					<a href="#" class="mdl-button" data-event="retry" style="display: none;"><?php echo $this->lang('retry'); ?></a>
 					<!--<a href="#" class="mdl-button" data-event="cancel" style="display: none;"><?php echo $this->lang('cancel_download'); ?></a>-->
