@@ -3,5 +3,6 @@
 node_modules/
 
 # wget-remote-downloader
-startup.php
-main/settings/accounts.php
+
+/startup.php
+/main/settings/accounts.php
