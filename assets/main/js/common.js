@@ -215,13 +215,17 @@ DOWNLOAD = {
 				for (var signature in list) {
 					if ($('#download-list [data-signature='+ signature +']').length == 0) {
 						var card = $cardTemplate.html();
-						var $card = $(card.replaceAll('{SIGNATURE}', signature)
-												.replaceAll('{STATUS}', list[signature].status)
-												.replaceAll('{FILENAME}', list[signature].filename)
-												.replaceAll('{URL}', list[signature].url)
-												.replaceAll('{FILESIZE}', DOWNLOAD.getFileSize(list[signature].filesize))
-												.replaceAll('{ETA}', list[signature].estimated_time)
-												.replaceAll('{SPEED}', list[signature].speed));
+						card = card.replaceAll('{SIGNATURE}', signature)
+							.replaceAll('{STATUS}', list[signature].status)
+							.replaceAll('{FILENAME}', list[signature].filename)
+							.replaceAll('{URL}', list[signature].url);
+						if (list[signature].filesize) {
+							card.replaceAll('{FILESIZE}', DOWNLOAD.getFileSize(list[signature].filesize));
+						}
+						if (list[signature].speed) {
+							card.replaceAll('{SPEED}', list[signature].speed);
+						}
+						var $card = $(card);
 						$card.find('header .mdi').addClass(DOWNLOAD.getMimeIcon(list[signature].filetype));
 						$card.find('a.url').attr('href', list[signature].url);
 						$('#download-list').prepend($card);
@@ -233,6 +237,10 @@ DOWNLOAD = {
 						case 'finished':
 							$card.find('.download-progress, [data-event=retry]').hide();
 							$card.find('[data-event=download]').show();
+							if (list[signature].filesize && $card.find('[data-event=download] .filesize').length == 0) {
+								$card.find('[data-event=download]')
+									.append('<span class="filesize">('+ DOWNLOAD.getFileSize(list[signature].filesize) +')</span>');
+							}
 							break;
 						case 'cancel':
 						case 'error':
@@ -240,7 +248,12 @@ DOWNLOAD = {
 							$card.find('[data-event=retry]').show();
 							break;
 						case 'downloading':
-							$card.find('.download-progress .speed').html(list[signature].estimated_time +' - '+ list[signature].speed);
+							if (list[signature].filesize) {
+								$card.find('.filesize').html(DOWNLOAD.getFileSize(list[signature].filesize));
+							}
+							if (list[signature].speed) {
+								$card.find('.speed').html(list[signature].estimated_time +' - '+ list[signature].speed);
+							}
 							$card.find('.download-progress, [data-event=cancel]').show();
 							var $mdlProgress = $card.find('.download-progress .mdl-progress');
 							$mdlProgress.find('.progressbar').css('width', list[signature].precentage +'%');
