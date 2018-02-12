@@ -43,7 +43,7 @@ class MainApp extends Index
 		if (!$this->check_login()) {
 			$this->show_json(false, 'require_login');
 		}
-		$storage_location = $this->setting['file_storage'] . $this->user .'/';
+		$storage_location = $this->get_file_storage() . $this->user .'/';
 		exec('ls '. $storage_location .'*.stat', $state_list);
 		if (empty($state_list)) {
 			$this->show_json(false, 'list_empty');
@@ -149,7 +149,7 @@ class MainApp extends Index
 		if (empty($file_name)) {
 			$file_name = basename($url_link);
 		}
-		$storage_location = $this->setting['file_storage'] . $this->user .'/';
+		$storage_location = $this->get_file_storage() . $this->user .'/';
 		$download_file = $storage_location . $signature .'.file';
 		$progress_file = $storage_location . $signature .'.prog';
 		$state_file = $storage_location . $signature .'.stat';
@@ -158,50 +158,55 @@ class MainApp extends Index
 			mkdir($storage_location, 0770, true);
 		}
 
-		file_put_contents($state_file, json_encode(array(
-			'status' => 'downloading',
-			'filename' => $file_name,
-			'url' => $url_link,
-		)));
+		$command = "wget -U \"$user_agent\" --output-document=\"$download_file\" \"$url_link\" > /dev/null 2> \"$progress_file\" & echo $! &";
+		$pid = exec ($command);
 
-		$command = "wget -U \"$user_agent\" --output-document=\"$download_file\" \"$url_link\" > /dev/null 2> \"$progress_file\" &";
-		shell_exec ($command);
+        file_put_contents($state_file, json_encode(array(
+            'status' => 'downloading',
+            'pid' => $pid,
+            'filename' => $file_name,
+            'url' => $url_link,
+        )));
+
 		$this->show_json(true);
 	}
 
-	/*
 	function handler_request_cancel()
 	{
 		if (!$this->check_login()) {
 			$this->show_json(false, 'require_login');
 		}
-		$signature = $this->post('signature', 'string');
-		if (empty($signature)) {
+
+        $pid = $this->post('pid', 'int');
+        $signature = $this->post('signature', 'string');
+		if (empty($pid) or empty($signature)) {
 			$this->show_json(false, 'invalid_param');
 		}
 
-		$state_file = $this->setting['file_storage'] . $this->user .'/'. $signature .'.stat';
+        // check process can be cancel
+		$state_file = $this->get_file_storage() . $this->user .'/'. $signature .'.stat';
 		$content = json_decode(file_get_contents($state_file), true);
-
+        if ($content['pid'] != $pid) {
+            $this->show_json(false, 'invalid_pid');
+        }
 		if ($content['status'] != 'downloading') {
 			$this->show_json(false, 'invalid_action');
 		}
-		exec('ps aux | grep '. $content['pid'], $output);
-		$output = implode("\n", $output);
-		if (!preg_match('/(755)(?:[\d\s\W\w]+)wget --tries=/', $output, $matches)) {
-			$this->show_json(false, 'invalid_pid');
-		}
+
+        // kill the download process
 		exec('kill -15 '. $content['pid']);
 
+        // remove downloading files
 		$user_dir = dirname($state_file).'/';
-		unlink($user_dir . $file_signature .'.file');
-		unlink($user_dir . $file_signature .'.prog');
+		@unlink($user_dir . $file_signature .'.file');
+		@unlink($user_dir . $file_signature .'.prog');
+
+        // write back status change
 		$content['status'] = 'cancel';
 		file_put_contents($state_file, json_encode($content));
 
 		$this->show_json(true);
 	}
-	*/
 
 	function handler_get_file()
 	{
@@ -213,8 +218,9 @@ class MainApp extends Index
 			$this->show_error(404);
 		}
 
-		$state_file = $this->setting['file_storage'] . $this->user .'/'. $signature .'.stat';
-		$download_file = $this->setting['file_storage'] . $this->user .'/'. $signature .'.file';
+        $file_storage = $this->get_file_storage();
+		$state_file = $file_storage . $this->user .'/'. $signature .'.stat';
+		$download_file = $file_storage . $this->user .'/'. $signature .'.file';
 		$content = json_decode(file_get_contents($state_file), true);
 
 		if ($content['status'] != 'finished' or !file_exists($download_file)) {
@@ -242,7 +248,7 @@ class MainApp extends Index
 		if (empty($signature)) {
 			$this->show_json(false, 'invalid_param');
 		}
-		$storage_location = $this->setting['file_storage'] . $this->user .'/';
+		$storage_location = $this->get_file_storage() . $this->user .'/';
 		exec('ls '. $storage_location .'*.stat', $state_list);
 		if (empty($state_list)) {
 			$this->show_json(false, 'list_empty');
@@ -252,13 +258,19 @@ class MainApp extends Index
 			$file_signature = basename($state_file, '.stat');
 			if ($file_signature == $signature or $signature == 'all_signature') {
 				$user_dir = dirname($state_file).'/';
-				unlink($user_dir . $file_signature .'.file');
-				unlink($user_dir . $file_signature .'.prog');
-				unlink($user_dir . $file_signature .'.stat');
+				@unlink($user_dir . $file_signature .'.file');
+				@unlink($user_dir . $file_signature .'.prog');
+				@unlink($user_dir . $file_signature .'.stat');
 			}
 		}
 		$this->show_json(true);
 	}
+
+    function get_file_storage()
+    {
+        $m = preg_match('/\/$/', $this->setting['file_storage']);
+        return $m == 0 ? $this->setting['file_storage'] .'/' : $this->setting['file_storage'];
+    }
 
 	function get_expect_extension($mime)
 	{

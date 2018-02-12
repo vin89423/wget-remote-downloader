@@ -14,7 +14,7 @@
 </div>
 
 <div id="item-template" style="display: none;">
-	<div class="mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" data-name="item" data-signature="{SIGNATURE}" data-status="{STATUS}" style="margin-bottom: 8px;">
+	<div class="mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" data-name="item" data-pid="{PID}" data-signature="{SIGNATURE}" data-status="{STATUS}" style="margin-bottom: 8px;">
 		<header class="mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--hide-phone" style="display: flex; justify-content: center; align-items: center;">
 			<i class="mdi" style="font-size: 42px;"></i>
 		</header>
@@ -40,7 +40,7 @@
 						<i class="material-icons">cloud_download</i> <?php echo $this->lang('download_to_local'); ?>
 					</a>
 					<a href="#" class="mdl-button" data-event="retry" style="display: none;"><?php echo $this->lang('retry'); ?></a>
-					<!--<a href="#" class="mdl-button" data-event="cancel" style="display: none;"><?php echo $this->lang('cancel_download'); ?></a>-->
+					<a href="#" class="mdl-button" data-event="cancel" style="display: none;"><?php echo $this->lang('cancel_download'); ?></a>
 				</div>
 				<div class="mdl-card__menu">
 					<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" data-event="remove">

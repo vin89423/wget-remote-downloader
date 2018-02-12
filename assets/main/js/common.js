@@ -216,6 +216,7 @@ DOWNLOAD = {
 					if ($('#download-list [data-signature='+ signature +']').length == 0) {
 						var card = $cardTemplate.html();
 						card = card.replaceAll('{SIGNATURE}', signature)
+							.replaceAll('{PID}', list[signature].pid)
 							.replaceAll('{STATUS}', list[signature].status)
 							.replaceAll('{FILENAME}', list[signature].filename)
 							.replaceAll('{URL}', list[signature].url);
@@ -235,7 +236,7 @@ DOWNLOAD = {
 					$card.attr('data-status', list[signature].status);
 					switch (list[signature].status) {
 						case 'finished':
-							$card.find('.download-progress, [data-event=retry]').hide();
+							$card.find('.download-progress, [data-event=retry], [data-event=cancel]').hide();
 							$card.find('[data-event=download]').show();
 							if (list[signature].filesize && $card.find('[data-event=download] .filesize').length == 0) {
 								$card.find('[data-event=download]')
@@ -244,7 +245,7 @@ DOWNLOAD = {
 							break;
 						case 'cancel':
 						case 'error':
-							$card.find('.download-progress, [data-event=download]').hide();
+							$card.find('.download-progress, [data-event=download], [data-event=cancel]').hide();
 							$card.find('[data-event=retry]').show();
 							break;
 						case 'downloading':
@@ -376,6 +377,7 @@ DOWNLOAD = {
 			url: $.url.activity +'request_cancel?'+ $.now(),
 			type: 'POST',
 			data: {
+				'pid': $card.attr('data-pid'),
 				'signature': signature
 			},
 			dataType: 'json',
