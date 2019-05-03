@@ -12,9 +12,8 @@ class Session extends MainApp
     /** Valid $token and retrieve user data. */
     function recover_session_by_token($token)
     {
-        $this->load_plugin('Mcrypt');
-        $mcrypt = new Mcrypt($this->manifest['session_encrypt']);
-        $data = explode('.', $mcrypt->decrypt(base64_decode($token)));
+		$data = openssl_decrypt($token, 'AES-256-CBC', $this->manifest['session_key'], 0, $this->manifest['session_iv']);
+		$data = explode('.', $data);
         if (!isset($data[2])) {
             return false;
         }
@@ -39,7 +38,7 @@ class Session extends MainApp
         if (empty($username) or empty($password)) {
             return $this->show_json(false, 'invalid_param');
         }
-        if (!function_exists('mcrypt_encrypt') or !isset($this->manifest['session_encrypt'])) {
+        if (!function_exists('openssl_encrypt') or !isset($this->manifest['session_key']) or !isset($this->manifest['session_iv'])) {
             return $this->show_json(false, 'server_not_supported');
         }
 		if (empty($this->setting['account'][$username]) or $this->setting['account'][$username] != $password) {
@@ -52,9 +51,8 @@ class Session extends MainApp
     /** Set a cookie which contain encrypted user id. */
     function create_session_recover_cookie($user_id, $session_only = true)
     {
-        $this->load_plugin('Mcrypt');
-        $mcrypt = new Mcrypt($this->manifest['session_encrypt']);
-        $code = base64_encode($mcrypt->encrypt(rand(100, 999) . '.' . $user_id . '.' . date('Y-m-d H:i:s')));
+        $data = rand(100, 999) . '.' . $user_id . '.' . date('Y-m-d H:i:s');
+        $code = openssl_encrypt($data, 'AES-256-CBC', $this->manifest['session_key'], 0, $this->manifest['session_iv']);
         setcookie($this->manifest['session_token'], $code, ($session_only ? 0 : time() + 315360000), '/', $_SERVER['SERVER_NAME'], false);
     }
 
