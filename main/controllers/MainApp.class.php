@@ -52,6 +52,9 @@ class MainApp extends Index
 		foreach ($state_list as $state_file) {
 			$signature = basename($state_file, '.stat');
 			$content = json_decode(file_get_contents($state_file), true);
+			if (empty($content['status'])) {
+				continue;
+			}
 			if (in_array($content['status'], array('finished', 'error', 'cancel'))) {
 				$list[$signature] = $content;
 				// continue;
