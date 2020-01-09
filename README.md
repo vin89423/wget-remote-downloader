@@ -1,4 +1,4 @@
-# Wget Remote Downloader [BETA]
+# Wget Remote Downloader [BETA] Bye 
 This project still under construction.
 
 ### Introduction
